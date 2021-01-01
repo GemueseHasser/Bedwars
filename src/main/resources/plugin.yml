@@ -14,5 +14,8 @@ prefix: '${project.name}'
 
 commands:
   setspawner:
-    description: 'Setzte den jeweiligen Spawner'
+    description: 'Setzt den jeweiligen Spawner'
     usage: '</command> <bronze|eisen|gold>'
+  setshop:
+    description: 'Setzt den Bedwars-Shop'
+    usage: '</command>'
