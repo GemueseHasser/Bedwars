@@ -52,7 +52,7 @@ public class OnInventoryClick implements Listener {
         } else if (InitializeItemStacks.extra.equals(currentItem)) {
             player.openInventory(gui.extra());
         } else if (InitializeItemStacks.bloeckeSandstone.equals(currentItem)) {
-            buy(player, currentItem, 0, 2);
+            buy(player, currentItem, 0, 1);
         } else if (InitializeItemStacks.bloeckeEndstone.equals(currentItem)) {
             buy(player, currentItem, 0, 5);
         } else if (InitializeItemStacks.bloeckeIronBlock.equals(currentItem)) {

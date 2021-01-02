@@ -14,6 +14,9 @@ public class OnInteractAtEntity implements Listener {
         if (clicked == null) {
             return;
         }
+        if (clicked.getCustomName() == null) {
+            return;
+        }
         if (!clicked.getCustomName().equals("§6§lSHOP")) {
             return;
         }

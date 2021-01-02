@@ -2,6 +2,7 @@ package de.jonas.bedwars.shop;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class GUI {
 
@@ -26,7 +27,9 @@ public class GUI {
     public Inventory bloecke() {
         Inventory inv = Bukkit.createInventory(null, 36, "§6§lSHOP");
         headMenu(inv);
-        inv.setItem(20, InitializeItemStacks.bloeckeSandstone);
+        ItemStack stack = InitializeItemStacks.bloeckeSandstone;
+        stack.setAmount(2);
+        inv.setItem(20, stack);
         inv.setItem(22, InitializeItemStacks.bloeckeEndstone);
         inv.setItem(24, InitializeItemStacks.bloeckeIronBlock);
         return inv;

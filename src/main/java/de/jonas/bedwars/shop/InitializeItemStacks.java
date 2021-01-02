@@ -39,7 +39,7 @@ public class InitializeItemStacks {
         kisten = item.setDisplayName(kisten, Material.CHEST, "§6§lKisten");
         traenke = item.setDisplayName(traenke, Material.GLASS_BOTTLE, "§6§lTränke");
         extra = item.setDisplayName(extra, Material.TNT, "§6§lExtra");
-        bloeckeSandstone = item.setLore(bloeckeSandstone, Material.SANDSTONE, "§6Sandstein", "§c2 Bronze");
+        bloeckeSandstone = item.setLore(bloeckeSandstone, Material.SANDSTONE, "§6Sandstein", "§c1 Bronze");
         bloeckeEndstone = item.setLore(bloeckeEndstone, Material.ENDER_STONE, "§6Endstone", "§c5 Bronze");
         bloeckeIronBlock = item.setLore(bloeckeIronBlock, Material.IRON_BLOCK, "§6Eisen-Block", "§82 Eisen");
         rustungHelm = item.setLore(rustungHelm, Material.LEATHER_HELMET, "§6Helm", "§c2 Bronze");

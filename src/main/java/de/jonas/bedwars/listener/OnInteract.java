@@ -42,9 +42,15 @@ public class OnInteract implements Listener {
                     }
                 }
             }
+            if (e.getItem() == null) {
+                return;
+            }
             if (Main.waiters.contains(e.getPlayer().getUniqueId()) && e.getItem().getType() == Material.BED) {
                 Inventory inv = Bukkit.createInventory(null, 9, "§aTeams");
 
+                if (blau.getItemMeta() == null || rot.getItemMeta() == null) {
+                    return;
+                }
                 ItemMeta blauMeta = blau.getItemMeta();
                 blauMeta.setDisplayName("§f§lBlau");
                 blau.setItemMeta(blauMeta);
