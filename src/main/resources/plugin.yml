@@ -19,3 +19,12 @@ commands:
   setshop:
     description: 'Setzt den Bedwars-Shop'
     usage: '</command>'
+  setspawn:
+    description: 'Setzt den jeweiligen Spieler-Spawn'
+    usage: '</command> <blau|rot>'
+  setbed:
+    description: 'Setzt das Bett'
+    usage: '</command> <blau|rot>'
+  setlobby:
+    description: 'Setze die lobby!'
+    usage: '</command>'

@@ -135,9 +135,11 @@ public class OnInventoryClick implements Listener {
                 if (itemStack.getAmount() == amount) {
                     player.getInventory().remove(itemStack);
                     player.getInventory().addItem(item);
+                    return;
                 } else if (itemStack.getAmount() > amount) {
                     itemStack.setAmount(itemStack.getAmount() - amount);
                     player.getInventory().addItem(item);
+                    return;
                 }
             }
         }

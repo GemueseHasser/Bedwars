@@ -11,6 +11,9 @@ public class OnInteractAtEntity implements Listener {
     @EventHandler
     public void onInteractAtEntity(PlayerInteractEntityEvent e) {
         Entity clicked = e.getRightClicked();
+        if (clicked == null) {
+            return;
+        }
         if (!clicked.getCustomName().equals("§6§lSHOP")) {
             return;
         }

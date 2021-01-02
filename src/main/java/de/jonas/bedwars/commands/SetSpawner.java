@@ -39,6 +39,8 @@ public class SetSpawner implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("gold")) {
             createSpawnerAtLocation(player, "Gold");
             player.sendMessage(Bedwars.prefix+"Du hast erfolgreich einen §aGold-Spawner §cgesetzt!");
+        } else {
+            player.sendMessage(Bedwars.prefix+"Bitte benutze §c§lsetspawner <bronze|eisen|gold>");
         }
         return true;
     }

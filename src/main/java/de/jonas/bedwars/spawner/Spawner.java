@@ -3,6 +3,8 @@ package de.jonas.bedwars.spawner;
 import java.io.File;
 
 import de.jonas.bedwars.Bedwars;
+import de.jonas.bedwars.system.Main;
+import de.jonas.bedwars.system.Variablen;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,6 +34,11 @@ public class Spawner {
         spawnerTask = new BukkitRunnable() {
             @Override
             public void run() {
+                if (Variablen.ende) {
+                    spawnerTask.cancel();
+                    new Main().removeItems();
+                    return;
+                }
                 if (currentBrickProcedure == bricksPeriodInSecs) {
                     spawnBricks();
                     currentBrickProcedure = 0;
@@ -52,7 +59,7 @@ public class Spawner {
     }
 
     public void cancelTask() {
-        spawnerTask.cancel();
+        Variablen.ende = true;
     }
 
     private void spawnBricks() {

@@ -1,7 +1,15 @@
 package de.jonas.bedwars;
 
+import de.jonas.bedwars.commands.SetBed;
+import de.jonas.bedwars.commands.SetLobby;
 import de.jonas.bedwars.commands.SetShop;
+import de.jonas.bedwars.commands.SetSpawn;
 import de.jonas.bedwars.commands.SetSpawner;
+import de.jonas.bedwars.listener.OnBlockBreak;
+import de.jonas.bedwars.listener.OnBlockPlace;
+import de.jonas.bedwars.listener.OnDamage;
+import de.jonas.bedwars.listener.OnDeath;
+import de.jonas.bedwars.listener.OnInteract;
 import de.jonas.bedwars.shop.InitializeItemStacks;
 import de.jonas.bedwars.shop.OnInteractAtEntity;
 import de.jonas.bedwars.shop.OnInventoryClick;
@@ -47,12 +55,20 @@ public class Bedwars extends JavaPlugin {
     private void registerCommands() {
         getCommand("setspawner").setExecutor(new SetSpawner());
         getCommand("setshop").setExecutor(new SetShop());
+        getCommand("setspawn").setExecutor(new SetSpawn());
+        getCommand("setbed").setExecutor(new SetBed());
+        getCommand("setlobby").setExecutor(new SetLobby());
     }
 
     private void registerListener() {
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(new OnInteractAtEntity(), this);
         pluginManager.registerEvents(new OnInventoryClick(), this);
+        pluginManager.registerEvents(new OnInteract(), this);
+        pluginManager.registerEvents(new OnBlockBreak(), this);
+        pluginManager.registerEvents(new OnBlockPlace(), this);
+        pluginManager.registerEvents(new OnDeath(), this);
+        pluginManager.registerEvents(new OnDamage(), this);
     }
 
 }
