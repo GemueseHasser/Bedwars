@@ -76,22 +76,7 @@ public class OnInteract implements Listener {
                 return;
             }
             Main.rot.add(e.getWhoClicked().getName());
-            ArrayList<String> lore = new ArrayList<>();
-            lore.add(" ");
-            for (String s : Main.rot) {
-                lore.add(ChatColor.RED + s);
-            }
-            ItemMeta meta = rot.getItemMeta();
-            meta.setLore(lore);
-            rot.setItemMeta(meta);
-            ItemMeta vsMeta = blau.getItemMeta();
-            ArrayList<String> loreBlau = new ArrayList<>();
-            loreBlau.add(" ");
-            for (String s : Main.blau) {
-                loreBlau.add(ChatColor.BLUE + s);
-            }
-            vsMeta.setLore(loreBlau);
-            blau.setItemMeta(vsMeta);
+            new Main().updateTeamItems();
             new Main().checkIfGameCanStart();
             e.getWhoClicked().closeInventory();
         }
@@ -102,22 +87,7 @@ public class OnInteract implements Listener {
                 return;
             }
             Main.blau.add(e.getWhoClicked().getName());
-            ArrayList<String> lore = new ArrayList<>();
-            lore.add(" ");
-            for (String s : Main.blau) {
-                lore.add(ChatColor.BLUE + s);
-            }
-            ItemMeta meta = blau.getItemMeta();
-            meta.setLore(lore);
-            blau.setItemMeta(meta);
-            ItemMeta vsMeta = rot.getItemMeta();
-            ArrayList<String> loreRot = new ArrayList<>();
-            loreRot.add(" ");
-            for (String s : Main.rot) {
-                loreRot.add(ChatColor.RED + s);
-            }
-            vsMeta.setLore(loreRot);
-            rot.setItemMeta(vsMeta);
+            new Main().updateTeamItems();
             e.getWhoClicked().closeInventory();
             new Main().checkIfGameCanStart();
         }

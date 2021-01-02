@@ -6,9 +6,11 @@ import java.util.UUID;
 
 import de.jonas.bedwars.Bedwars;
 import de.jonas.bedwars.listener.OnBlockPlace;
+import de.jonas.bedwars.listener.OnInteract;
 import de.jonas.bedwars.spawner.Spawner;
 import de.jonas.bedwars.util.ItemCreator;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -157,14 +160,13 @@ public class Main {
     }
 
     public void stopGame() {
-        for (UUID uuid : waiters) {
-            Player player = Bukkit.getPlayer(uuid);
-            for (int i = 0; i < player.getInventory().getSize(); i++) {
-                player.getInventory().setItem(i, new ItemStack(Material.AIR));
-            }
-        }
+        updateTeamItems();
         Player player = Bukkit.getPlayer(rot.get(0));
         Player playerI = Bukkit.getPlayer(blau.get(0));
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            playerI.getInventory().setItem(i, new ItemStack(Material.AIR));
+        }
         Variablen.damage = false;
         taskI = new BukkitRunnable() {
 
@@ -271,6 +273,25 @@ public class Main {
         int z = cfg.getInt("Lobby.Z");
         Location loc = new Location(Bukkit.getWorld(world), x, y, z);
         return loc;
+    }
+
+    public void updateTeamItems() {
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(" ");
+        for (String s : Main.rot) {
+            lore.add(ChatColor.RED + s);
+        }
+        ItemMeta meta = OnInteract.rot.getItemMeta();
+        meta.setLore(lore);
+        OnInteract.rot.setItemMeta(meta);
+        ItemMeta vsMeta = OnInteract.blau.getItemMeta();
+        ArrayList<String> loreBlau = new ArrayList<>();
+        loreBlau.add(" ");
+        for (String s : blau) {
+            loreBlau.add(ChatColor.BLUE + s);
+        }
+        vsMeta.setLore(loreBlau);
+        OnInteract.blau.setItemMeta(vsMeta);
     }
 
 }
