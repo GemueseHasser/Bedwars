@@ -12,9 +12,9 @@ import de.jonas.bedwars.listener.OnDeath;
 import de.jonas.bedwars.listener.OnEntitySpawn;
 import de.jonas.bedwars.listener.OnInteract;
 import de.jonas.bedwars.listener.OnQuit;
+import de.jonas.bedwars.listener.OnRespawn;
 import de.jonas.bedwars.listener.OnTimeChange;
 import de.jonas.bedwars.listener.OnWeather;
-import de.jonas.bedwars.listener.OnWorldChange;
 import de.jonas.bedwars.shop.InitializeItemStacks;
 import de.jonas.bedwars.shop.OnInteractAtEntity;
 import de.jonas.bedwars.shop.OnInventoryClick;
@@ -78,7 +78,7 @@ public class Bedwars extends JavaPlugin {
         pluginManager.registerEvents(new OnWeather(), this);
         pluginManager.registerEvents(new OnEntitySpawn(), this);
         pluginManager.registerEvents(new OnQuit(), this);
-        pluginManager.registerEvents(new OnWorldChange(), this);
+        pluginManager.registerEvents(new OnRespawn(), this);
     }
 
 }

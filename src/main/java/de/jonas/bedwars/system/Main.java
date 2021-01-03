@@ -22,8 +22,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -40,13 +40,13 @@ public class Main {
 
     public static ArrayList<String> blau = new ArrayList<>();
 
-    public static HashMap<Player, Inventory> savedInventorys = new HashMap<>();
+    public static HashMap<UUID, ItemStack[]> savedInventorys = new HashMap<>();
 
     private BukkitTask task, taskI;
 
     public void addPlayerToWaiters(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
-        savedInventorys.put(player, player.getInventory());
+        savedInventorys.put(player.getUniqueId(), player.getInventory().getContents());
         player.getInventory().clear();
         setWaitingHotbar(player);
         if (!waiters.contains(player.getUniqueId())) {
@@ -57,8 +57,14 @@ public class Main {
 
     public void removePlayerFromWaiters(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return;
+        }
         player.getInventory().clear();
-        player.getInventory().setContents(savedInventorys.get(player).getContents());
+        if (savedInventorys.containsKey(player.getUniqueId())) {
+            player.getInventory().setContents(savedInventorys.get(player.getUniqueId()));
+            savedInventorys.remove(player.getUniqueId());
+        }
         waiters.remove(player.getUniqueId());
         Variablen.player--;
     }
@@ -148,6 +154,8 @@ public class Main {
                         setBed(0);
                         setBed(1);
 
+                        spawnShops();
+
                         File file = new File("plugins/Bedwars", "Spawns.yml");
                         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
                         String worldRot = cfg.getString("Spawn.Rot.World");
@@ -176,12 +184,13 @@ public class Main {
     }
 
     public void stopGame() {
-        updateTeamItems();
         Player player = Bukkit.getPlayer(rot.get(0));
         Player playerI = Bukkit.getPlayer(blau.get(0));
         player.getInventory().clear();
         playerI.getInventory().clear();
         Variablen.damage = false;
+        Variablen.bedRot = true;
+        Variablen.bedBlau = true;
         taskI = new BukkitRunnable() {
 
             int time = 10;
@@ -206,13 +215,16 @@ public class Main {
                         Spawner spawner = new Spawner();
                         spawner.cancelTask();
                         resetMap();
+                        if (savedInventorys.containsKey(player.getUniqueId())) {
+                            player.getInventory().setContents(savedInventorys.get(player.getUniqueId()));
+                            savedInventorys.remove(player.getUniqueId());
+                        }
                         clearFromAllArrays(player);
                         clearFromAllArrays(playerI);
                         player.teleport(getLobby());
                         playerI.teleport(getLobby());
                         Variablen.player = 0;
-                        removePlayerFromWaiters(player.getUniqueId());
-                        removePlayerFromWaiters(playerI.getUniqueId());
+                        updateTeamItems();
                         taskI.cancel();
                         break;
 
@@ -274,7 +286,7 @@ public class Main {
         String world = cfg.getString("Spawn.Blau.World");
         World w = Bukkit.getWorld(world);
         for (Entity e : w.getEntities()) {
-            if (e instanceof Player || e instanceof Villager) {
+            if (e instanceof Player) {
                 continue;
             }
             e.remove();
@@ -344,6 +356,23 @@ public class Main {
         sign.setLine(0, ChatColor.GREEN + "[" + ChatColor.GOLD + "Bedwars" + ChatColor.GREEN + "]");
         sign.setLine(1, "");
         sign.setLine(2, Variablen.player + "/2");
+    }
+
+    public void spawnShops() {
+        File file = new File("plugins/Bedwars", "Shops.yml");
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        int amount = cfg.getInt("Shop.amount");
+        for (int i = 1; i <= amount; i++) {
+            String world = cfg.getString("Shop." + i + ".World");
+            int x = cfg.getInt("Shop." + i + ".X");
+            int y = cfg.getInt("Shop." + i + ".Y");
+            int z = cfg.getInt("Shop." + i + ".Z");
+            Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+            Entity villager = loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+            villager.setCustomName("§6§lSHOP");
+            villager.setCustomNameVisible(true);
+            villager.setInvulnerable(true);
+        }
     }
 
 }

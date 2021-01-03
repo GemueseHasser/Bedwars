@@ -29,6 +29,9 @@ public class OnDeath implements Listener {
             return;
         }
 
+        e.setDroppedExp(0);
+        e.getDrops().clear();
+
         File file = new File("plugins/Bedwars", "Spawns.yml");
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
@@ -44,8 +47,6 @@ public class OnDeath implements Listener {
 
         Location spawnRot = new Location(Bukkit.getWorld(worldRot), xRot, yRot, zRot);
         Location spawnBlau = new Location(Bukkit.getWorld(worldBlau), xBlau, yBlau, zBlau);
-
-        player.getInventory().clear();
 
         for (Player all : Bukkit.getOnlinePlayers()) {
             if (!all.getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
