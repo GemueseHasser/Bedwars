@@ -18,6 +18,10 @@ public class OnInventoryClick implements Listener {
 
         Player player = (Player) e.getWhoClicked();
 
+        if (e.getClickedInventory().equals(player.getInventory())) {
+            return;
+        }
+
         if (e.getInventory().getTitle().equals("§6§lSHOP")) {
             e.setCancelled(true);
             checkShop(e, player);

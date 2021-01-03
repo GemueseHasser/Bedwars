@@ -1,7 +1,5 @@
 package de.jonas.bedwars.listener;
 
-import java.util.ArrayList;
-
 import de.jonas.bedwars.Bedwars;
 import de.jonas.bedwars.system.Main;
 import de.jonas.bedwars.system.Variablen;
@@ -35,8 +33,8 @@ public class OnInteract implements Listener {
                     if (sign.getLine(0)
                         .equalsIgnoreCase(ChatColor.GREEN + "[" + ChatColor.GOLD + "Bedwars" + ChatColor.GREEN + "]")) {
                         Main system = new Main();
+                        system.updateSign(sign);
                         system.addPlayerToWaiters(e.getPlayer().getUniqueId());
-                        sign.setLine(2, Variablen.player + "/2");
                         e.getPlayer().teleport(system.getLobby());
                         return;
                     }
@@ -62,6 +60,8 @@ public class OnInteract implements Listener {
                 inv.setItem(3, blau);
                 inv.setItem(5, rot);
                 e.getPlayer().openInventory(inv);
+            } else if (Main.waiters.contains(e.getPlayer().getUniqueId()) && e.getItem().getType() == Material.NETHER_STAR) {
+                new Main().removePlayerFromWaiters(e.getPlayer().getUniqueId());
             }
         }
     }

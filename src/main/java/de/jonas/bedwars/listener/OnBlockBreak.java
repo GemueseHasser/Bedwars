@@ -30,7 +30,8 @@ public class OnBlockBreak implements Listener {
         if ((e.getBlock().getLocation().getX() == getBed(0).getX()
         || e.getBlock().getLocation().getX() == getBed(0).getX() - 1)
         && e.getBlock().getLocation().getY() == getBed(0).getY()
-        && e.getBlock().getLocation().getZ() == getBed(0).getZ()) {
+        && e.getBlock().getLocation().getZ() == getBed(0).getZ()
+            && e.getBlock().getType().equals(Material.BED_BLOCK)) {
             // bett von Team rot wurde zerstört
             if (player.equals(Bukkit.getPlayer(Main.rot.get(0)))) {
                 e.setCancelled(true);
@@ -52,7 +53,9 @@ public class OnBlockBreak implements Listener {
         if ((e.getBlock().getLocation().getX() == getBed(1).getX()
             || e.getBlock().getLocation().getX() == getBed(1).getX() - 1)
             && e.getBlock().getLocation().getY() == getBed(1).getY()
-            && e.getBlock().getLocation().getZ() == getBed(1).getZ()) {
+            && e.getBlock().getLocation().getZ() == getBed(1).getZ()
+            && e.getBlock().getType().equals(Material.BED_BLOCK)) {
+            // bett von Team blau wurde zerstört
             if (player.equals(Bukkit.getPlayer(Main.blau.get(0)))) {
                 e.setCancelled(true);
                 player.sendMessage(Bedwars.prefix+"Du kannst dein eigenes Bett nicht abbauen!");

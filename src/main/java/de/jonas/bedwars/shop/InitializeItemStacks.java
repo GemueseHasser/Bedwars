@@ -57,7 +57,7 @@ public class InitializeItemStacks {
         spitzhackenGold = item.setEnchantment(spitzhackenGold, Material.IRON_PICKAXE, "§aSpitzhacke",
             Enchantment.DIG_SPEED, 2, "§65 Gold");
         schwerterKnockback = item.setEnchantment(schwerterKnockback, Material.STICK, "§6Knüppel",
-            Enchantment.KNOCKBACK, 9, "§c10 Bronze");
+            Enchantment.KNOCKBACK, 2, "§c10 Bronze");
         schwerterI = item.setLore(schwerterI, Material.IRON_SWORD, "§6Schwert I", "§82 Eisen");
         schwerterII = item.setEnchantment(schwerterII, Material.IRON_SWORD, "§6Schwert II",
             Enchantment.DAMAGE_ALL, 0, "§85 Eisen");

@@ -1,0 +1,5 @@
+Config:
+  RessourceSpawner:
+    BronzePeriodInSeconds: 2
+    IronPeriodInSeconds: 10
+    GoldPeriodInSeconds: 20

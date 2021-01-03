@@ -2,27 +2,25 @@ package de.jonas.bedwars.listener;
 
 import java.io.File;
 
+import de.jonas.bedwars.system.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-public class OnEntitySpawn implements Listener {
+public class OnWorldChange implements Listener {
 
     @EventHandler
-    public void onSpawnEntity(EntitySpawnEvent e) {
+    public void onChangeWorld(PlayerChangedWorldEvent e) {
+        Player player = e.getPlayer();
         File file = new File("plugins/Bedwars", "Spawns.yml");
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-        if (!e.getEntity().getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
+        if (!e.getFrom().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
             return;
         }
-        if (e.getEntity() instanceof Player || e.getEntity() instanceof Item) {
-            return;
-        }
-        e.setCancelled(true);
+        new Main().exitGame(player);
     }
 
 }

@@ -2,6 +2,7 @@ package de.jonas.bedwars.system;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import de.jonas.bedwars.Bedwars;
@@ -17,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -38,10 +40,14 @@ public class Main {
 
     public static ArrayList<String> blau = new ArrayList<>();
 
+    public static HashMap<Player, Inventory> savedInventorys = new HashMap<>();
+
     private BukkitTask task, taskI;
 
     public void addPlayerToWaiters(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
+        savedInventorys.put(player, player.getInventory());
+        player.getInventory().clear();
         setWaitingHotbar(player);
         if (!waiters.contains(player.getUniqueId())) {
             waiters.add(player.getUniqueId());
@@ -49,16 +55,26 @@ public class Main {
         }
     }
 
+    public void removePlayerFromWaiters(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        player.getInventory().clear();
+        player.getInventory().setContents(savedInventorys.get(player).getContents());
+        waiters.remove(player.getUniqueId());
+        Variablen.player--;
+    }
+
     private void setWaitingHotbar(Player player) {
         Inventory inv = player.getInventory();
 
         ItemStack bed = null;
+        ItemStack netherstart = null;
 
         for (int i = 0; i < 9; i++) {
-            if (i == 4) continue;
+            if (i == 3 || i == 5) continue;
             inv.setItem(i, new ItemStack(Material.AIR));
         }
-        inv.setItem(4, new ItemCreator().setDisplayName(bed, Material.BED, "§6Teams"));
+        inv.setItem(3, new ItemCreator().setDisplayName(bed, Material.BED, "§6Teams"));
+        inv.setItem(5, new ItemCreator().setDisplayName(netherstart, Material.NETHER_STAR, "§6Verlassen"));
     }
 
     public void checkIfGameCanStart() {
@@ -119,9 +135,9 @@ public class Main {
 
                         Spawner spawner = new Spawner();
                         spawner.startSpawner(
-                            2,
-                            10,
-                            20
+                            Bedwars.getPlugin().getConfig().getInt("Config.RessourceSpawner.BronzePeriodInSeconds"),
+                            Bedwars.getPlugin().getConfig().getInt("Config.RessourceSpawner.IronPeriodInSeconds"),
+                            Bedwars.getPlugin().getConfig().getInt("Config.RessourceSpawner.GoldPeriodInSeconds")
                         );
 
                         for (int i = 0; i < 36; i++) {
@@ -163,10 +179,8 @@ public class Main {
         updateTeamItems();
         Player player = Bukkit.getPlayer(rot.get(0));
         Player playerI = Bukkit.getPlayer(blau.get(0));
-        for (int i = 0; i < player.getInventory().getSize(); i++) {
-            player.getInventory().setItem(i, new ItemStack(Material.AIR));
-            playerI.getInventory().setItem(i, new ItemStack(Material.AIR));
-        }
+        player.getInventory().clear();
+        playerI.getInventory().clear();
         Variablen.damage = false;
         taskI = new BukkitRunnable() {
 
@@ -196,6 +210,9 @@ public class Main {
                         clearFromAllArrays(playerI);
                         player.teleport(getLobby());
                         playerI.teleport(getLobby());
+                        Variablen.player = 0;
+                        removePlayerFromWaiters(player.getUniqueId());
+                        removePlayerFromWaiters(playerI.getUniqueId());
                         taskI.cancel();
                         break;
 
@@ -254,7 +271,7 @@ public class Main {
     public void removeItems() {
         File file = new File("plugins/Bedwars", "Spawns.yml");
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-        String world = cfg.getString("Spawn.Rot.World");
+        String world = cfg.getString("Spawn.Blau.World");
         World w = Bukkit.getWorld(world);
         for (Entity e : w.getEntities()) {
             if (e instanceof Player || e instanceof Villager) {
@@ -292,6 +309,41 @@ public class Main {
         }
         vsMeta.setLore(loreBlau);
         OnInteract.blau.setItemMeta(vsMeta);
+    }
+
+    public void win(int type) {
+        // type = 0 -> Team-Rot; type = 1 -> Team-Blau;
+        File file = new File("plugins/Bedwars", "Spawns.yml");
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            if (!all.getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
+                continue;
+            }
+            if (type == 0) {
+                all.sendMessage(Bedwars.prefix+"Team §4Rot §chat gewonnen!");
+            } else {
+                all.sendMessage(Bedwars.prefix+"Team " + net.md_5.bungee.api.ChatColor.BLUE + "Blau §chat gewonnen!");
+            }
+        }
+        stopGame();
+    }
+
+    public void exitGame(Player player) {
+        if (!(blau.contains(player.getName()) || rot.contains(player.getName()))) {
+            return;
+        }
+        if (blau.contains(player.getName())) {
+            win(0);
+        } else {
+            win(1);
+        }
+    }
+
+    public void updateSign(Sign sign) {
+        assert sign != null;
+        sign.setLine(0, ChatColor.GREEN + "[" + ChatColor.GOLD + "Bedwars" + ChatColor.GREEN + "]");
+        sign.setLine(1, "");
+        sign.setLine(2, Variablen.player + "/2");
     }
 
 }

@@ -45,6 +45,7 @@ public class OnDeath implements Listener {
         Location spawnRot = new Location(Bukkit.getWorld(worldRot), xRot, yRot, zRot);
         Location spawnBlau = new Location(Bukkit.getWorld(worldBlau), xBlau, yBlau, zBlau);
 
+        player.getInventory().clear();
 
         for (Player all : Bukkit.getOnlinePlayers()) {
             if (!all.getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
@@ -58,26 +59,14 @@ public class OnDeath implements Listener {
             player.spigot().respawn();
             player.teleport(spawnBlau);
             if (!Variablen.bedBlau) {
-                for (Player all : Bukkit.getOnlinePlayers()) {
-                    if (!all.getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
-                        continue;
-                    }
-                    all.sendMessage(Bedwars.prefix+"Team §4Rot §chat gewonnen!");
-                }
-                new Main().stopGame();
+                new Main().win(0);
             }
         } else {
             e.setDeathMessage("");
             player.spigot().respawn();
             player.teleport(spawnRot);
             if (!Variablen.bedRot) {
-                for (Player all : Bukkit.getOnlinePlayers()) {
-                    if (!all.getWorld().getName().equalsIgnoreCase(cfg.getString("Spawn.Blau.World"))) {
-                        continue;
-                    }
-                    all.sendMessage(Bedwars.prefix+"Team " + ChatColor.BLUE + "Blau §chat gewonnen!");
-                }
-                new Main().stopGame();
+                new Main().win(1);
             }
         }
     }
