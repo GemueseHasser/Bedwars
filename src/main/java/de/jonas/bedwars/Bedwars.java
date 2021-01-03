@@ -7,6 +7,7 @@ import de.jonas.bedwars.commands.SetSpawn;
 import de.jonas.bedwars.commands.SetSpawner;
 import de.jonas.bedwars.listener.OnBlockBreak;
 import de.jonas.bedwars.listener.OnBlockPlace;
+import de.jonas.bedwars.listener.OnChat;
 import de.jonas.bedwars.listener.OnDamage;
 import de.jonas.bedwars.listener.OnDeath;
 import de.jonas.bedwars.listener.OnEntitySpawn;
@@ -79,6 +80,7 @@ public class Bedwars extends JavaPlugin {
         pluginManager.registerEvents(new OnEntitySpawn(), this);
         pluginManager.registerEvents(new OnQuit(), this);
         pluginManager.registerEvents(new OnRespawn(), this);
+        pluginManager.registerEvents(new OnChat(), this);
     }
 
 }
