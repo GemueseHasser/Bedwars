@@ -333,8 +333,12 @@ public class Main {
             }
             if (type == 0) {
                 all.sendMessage(Bedwars.prefix+"Team §4Rot §chat gewonnen!");
+                all.sendTitle(net.md_5.bungee.api.ChatColor.RED + "Team " + net.md_5.bungee.api.ChatColor.DARK_RED + "Rot" + net.md_5.bungee.api.ChatColor.RED + " hat gewonnen!",
+                    "", 10, 20, 10);
             } else {
                 all.sendMessage(Bedwars.prefix+"Team " + net.md_5.bungee.api.ChatColor.BLUE + "Blau §chat gewonnen!");
+                all.sendTitle(net.md_5.bungee.api.ChatColor.RED + "Team " + net.md_5.bungee.api.ChatColor.BLUE + "Blau" + net.md_5.bungee.api.ChatColor.RED + " hat gewonnen!",
+                    "", 10, 20, 10);
             }
         }
         stopGame();
