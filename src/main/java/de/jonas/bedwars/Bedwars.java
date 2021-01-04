@@ -2,6 +2,7 @@ package de.jonas.bedwars;
 
 import de.jonas.bedwars.commands.SetBed;
 import de.jonas.bedwars.commands.SetLobby;
+import de.jonas.bedwars.commands.SetWaitingLobby;
 import de.jonas.bedwars.commands.SetShop;
 import de.jonas.bedwars.commands.SetSpawn;
 import de.jonas.bedwars.commands.SetSpawner;
@@ -64,6 +65,7 @@ public class Bedwars extends JavaPlugin {
         getCommand("setshop").setExecutor(new SetShop());
         getCommand("setspawn").setExecutor(new SetSpawn());
         getCommand("setbed").setExecutor(new SetBed());
+        getCommand("setwaitinglobby").setExecutor(new SetWaitingLobby());
         getCommand("setlobby").setExecutor(new SetLobby());
     }
 

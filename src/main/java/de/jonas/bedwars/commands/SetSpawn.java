@@ -21,7 +21,7 @@ public class SetSpawn implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if (!player.hasPermission("bedwars.setSpawner")) {
+        if (!player.hasPermission("bedwars.setspawn")) {
             player.sendMessage(Bedwars.prefix+"Dazu hast du keine Rechte!");
             return true;
         }

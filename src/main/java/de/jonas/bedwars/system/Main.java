@@ -50,6 +50,9 @@ public class Main {
         player.getInventory().clear();
         setWaitingHotbar(player);
         if (!waiters.contains(player.getUniqueId())) {
+            if (player.getInventory().getContents() == null) {
+                return;
+            }
             waiters.add(player.getUniqueId());
             Variablen.player++;
         }
@@ -66,6 +69,7 @@ public class Main {
             savedInventorys.remove(player.getUniqueId());
         }
         waiters.remove(player.getUniqueId());
+        player.teleport(getLobby());
         Variablen.player--;
     }
 
@@ -212,6 +216,11 @@ public class Main {
                         break;
 
                     case 0:
+                        if (!(waiters.contains(player.getUniqueId()) || waiters.contains(playerI.getUniqueId()))) {
+                            taskI.cancel();
+                            checkIfGameCanStart();
+                            return;
+                        }
                         Spawner spawner = new Spawner();
                         spawner.cancelTask();
                         resetMap();
@@ -293,6 +302,17 @@ public class Main {
         }
     }
 
+    public Location getWaitingLobby() {
+        File file = new File("plugins/Bedwars", "WaitingLobby.yml");
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        String world = cfg.getString("WaitingLobby.World");
+        int x = cfg.getInt("WaitingLobby.X");
+        int y = cfg.getInt("WaitingLobby.Y");
+        int z = cfg.getInt("WaitingLobby.Z");
+        Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+        return loc;
+    }
+
     public Location getLobby() {
         File file = new File("plugins/Bedwars", "Lobby.yml");
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
@@ -303,6 +323,8 @@ public class Main {
         Location loc = new Location(Bukkit.getWorld(world), x, y, z);
         return loc;
     }
+
+
 
     public void updateTeamItems() {
         ArrayList<String> lore = new ArrayList<>();

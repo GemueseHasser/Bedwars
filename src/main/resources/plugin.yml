@@ -25,6 +25,9 @@ commands:
   setbed:
     description: 'Setzt das Bett'
     usage: '</command> <blau|rot>'
-  setlobby:
-    description: 'Setze die lobby!'
+  setwaitinglobby:
+    description: 'Setzt die warte-lobby!'
     usage: '</command>'
+  setlobby:
+    description: 'Setzt die lobby!'
+      usage: '</command>'

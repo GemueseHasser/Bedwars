@@ -35,7 +35,7 @@ public class OnInteract implements Listener {
                         Main system = new Main();
                         system.updateSign(sign);
                         system.addPlayerToWaiters(e.getPlayer().getUniqueId());
-                        e.getPlayer().teleport(system.getLobby());
+                        e.getPlayer().teleport(system.getWaitingLobby());
                         return;
                     }
                 }
